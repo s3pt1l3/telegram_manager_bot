@@ -2,6 +2,8 @@ from sqlalchemy import sql, Column, BigInteger, Boolean, String, DateTime
 from asyncpg import UniqueViolationError
 from datetime import datetime
 
+from sqlalchemy.sql.expression import true
+
 from config.db_config import database as db
 
 
@@ -12,7 +14,8 @@ class User(db.BaseModel):
 
     __tablename__ = 'Users'
 
-    user_id = Column(BigInteger, primary_key=True)
+    id = Column(BigInteger, primary_key=True, autoincrement=True)
+    user_id = Column(BigInteger)
     tag = Column(String, 100)
     is_admin = Column(Boolean)
     created_at = Column(DateTime)
@@ -64,6 +67,17 @@ async def select_all_employes() -> list:
     return all_employes
 
 
+async def select_by_tag(tag: str) -> User:
+    """
+    Возвращает пользователя, которого нахдит по аргументу tag
+
+    `tag`: Тэг пользователя в Telegram
+    """
+
+    user = await User.query.where(User.tag == tag).gino.first()
+    return user
+
+
 async def select(user_id: int) -> User:
     """
     Возвращает пользователя, которого нахдит по аргументу user_id
@@ -85,6 +99,8 @@ async def update(user_id: int, tag: str, is_admin: bool) -> None:
     """
 
     user = await User.get(user_id)
+    if user_id is not None:
+        await user.update(user_id=user_id, updated_at=datetime.now()).apply()
     if tag is not None:
         await user.update(tag=tag, updated_at=datetime.now()).apply()
     if is_admin is not None:
