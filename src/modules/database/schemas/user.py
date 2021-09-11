@@ -1,6 +1,7 @@
 from sqlalchemy import sql, Column, BigInteger, Boolean, String, DateTime
 from config.db_config import database as db
 from asyncpg import UniqueViolationError
+from datetime import datetime
 
 
 class User(db.BaseModel):
@@ -29,7 +30,7 @@ async def add(user_id: int, tag: str, is_admin: bool):
     """
 
     try:
-        user = User(user_id=user_id, tag=tag, is_admin=is_admin)
+        user = User(user_id=user_id, tag=tag, is_admin=is_admin, created_at=datetime.now(), updated_at=datetime.now()) 
         await user.create()
     except UniqueViolationError:
         pass
@@ -84,9 +85,9 @@ async def update(user_id: int, tag: str, is_admin: bool) -> None:
 
     user = await User.get(user_id)
     if tag is not None:
-        await user.update(tag=tag).apply()
+        await user.update(tag=tag, updated_at=datetime.now()).apply()
     if is_admin is not None:
-        await user.update(is_admin=is_admin).apply()
+        await user.update(is_admin=is_admin, updated_at=datetime.now()).apply()
 
 
 async def delete(user_id: int) -> None:
