@@ -19,7 +19,7 @@ class User(db.BaseModel):
     query: sql.Select
 
 
-async def add_user(user_id: int, tag: str, is_admin: bool):
+async def add(user_id: int, tag: str, is_admin: bool):
     """
     Функция для добавления пользователя в бд
 
@@ -62,7 +62,7 @@ async def select_all_employes() -> list:
     return all_employes
 
 
-async def select_user(user_id: int) -> User:
+async def select(user_id: int) -> User:
     """
     Возвращает пользователя, которого нахдит по аргументу user_id
 
@@ -73,7 +73,7 @@ async def select_user(user_id: int) -> User:
     return user
 
 
-async def update_user(user_id: int, tag: str, is_admin: bool) -> None:
+async def update(user_id: int, tag: str, is_admin: bool) -> None:
     """
     Функция для обновления записи о пользователе в бд
 
@@ -89,7 +89,7 @@ async def update_user(user_id: int, tag: str, is_admin: bool) -> None:
         await user.update(is_admin=is_admin).apply()
 
 
-async def delete_user(user_id: int) -> None:
+async def delete(user_id: int) -> None:
     """
     Функция удаления пользователя из бд
 
