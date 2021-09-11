@@ -19,10 +19,19 @@ async def on_startup(dp):
     await flush_all()
 
 
+def bind_filters(dp, *args):
+    """
+    `args`: фильтры
+    `dp`: Dispatcher
+    """
+    for fltr in args:
+        dp.bind_filter(fltr)
+
+
 if __name__ == '__main__':
     from aiogram import executor
     from apps import dp
     from apps import _filters
 
-    dp.bind_filter(*_filters)
+    bind_filters(dp, _filters)
     executor.start_polling(dp, on_startup=on_startup, skip_updates=False)
