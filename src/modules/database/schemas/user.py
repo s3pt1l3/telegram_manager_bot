@@ -1,7 +1,8 @@
 from sqlalchemy import sql, Column, BigInteger, Boolean, String, DateTime
-from config.db_config import database as db
 from asyncpg import UniqueViolationError
 from datetime import datetime
+
+from config.db_config import database as db
 
 
 class User(db.BaseModel):
