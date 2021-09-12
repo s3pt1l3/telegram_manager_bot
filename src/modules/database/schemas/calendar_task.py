@@ -22,7 +22,7 @@ class CalendarTask(db.BaseModel):
     query: sql.Select
 
 
-async def add(user_id: int, task_text: str, task_date: bool):
+async def add(user_id: int, task_text: str, task_date: DateTime):
     """
     Функция для добавления задачи в бд
 
@@ -32,8 +32,8 @@ async def add(user_id: int, task_text: str, task_date: bool):
     """
 
     try:
-        user = CalendarTask(user_id=user_id, task_text=task_text, task_date=task_date, created_at=datetime.now(), updated_at=datetime.now())
-        await user.create()
+        task = CalendarTask(user_id=user_id, task_text=task_text, task_date=task_date, created_at=datetime.now(), updated_at=datetime.now())
+        await task.create()
     except UniqueViolationError:
         pass
 
@@ -58,7 +58,7 @@ async def select(task_id: int) -> CalendarTask:
     return task
 
 
-async def update(task_id: int, user_id: int, tag: str, is_admin: bool) -> None:
+async def update(task_id: int, user_id: int, task_text: str, task_date: DateTime) -> None:
     """
     Функция для обновления записи о задаче в бд
 
@@ -71,18 +71,18 @@ async def update(task_id: int, user_id: int, tag: str, is_admin: bool) -> None:
     task = await CalendarTask.get(task_id)
     if user_id is not None:
         await task.update(user_id=user_id, updated_at=datetime.now()).apply()
-    if tag is not None:
-        await task.update(tag=tag, updated_at=datetime.now()).apply()
-    if is_admin is not None:
-        await task.update(is_admin=is_admin, updated_at=datetime.now()).apply()
+    if task_text is not None:
+        await task.update(task_text=task_text, updated_at=datetime.now()).apply()
+    if task_date is not None:
+        await task.update(task_date=task_date, updated_at=datetime.now()).apply()
 
 
 async def delete(task_id: int) -> None:
     """
     Функция удаления задачи из бд
 
-    `user_id`: ID задачи в Telegram
+    `task_id`: ID задачи в Telegram
     """
 
-    task = await CalendarTask.query.where(CalendarTask.user_id == task_id).gino.first()
+    task = await CalendarTask.query.where(CalendarTask.task_id == task_id).gino.first()
     await task.delete()
