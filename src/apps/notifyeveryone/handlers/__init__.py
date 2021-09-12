@@ -1,0 +1,1 @@
+from .notify_message_handler import dp
