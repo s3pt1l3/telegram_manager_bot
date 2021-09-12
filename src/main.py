@@ -24,10 +24,8 @@ def bind_filters(dp, *args):
     `args`: фильтры
     `dp`: Dispatcher
     """
-    if not args:
-        return
-
-    for fltr in args:
+    filters = args[0]
+    for fltr in filters:
         dp.bind_filter(fltr)
 
 
