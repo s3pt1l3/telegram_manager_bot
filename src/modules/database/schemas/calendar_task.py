@@ -81,7 +81,7 @@ async def delete(task_id: int) -> None:
     """
     Функция удаления задачи из бд
 
-    `task_id`: ID задачи в Telegram
+    `task_id`: ID задачи
     """
 
     task = await CalendarTask.query.where(CalendarTask.task_id == task_id).gino.first()
