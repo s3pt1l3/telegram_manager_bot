@@ -54,7 +54,7 @@ async def select_all_admins() -> list:
     Возвращает список со всеми админами
     """
 
-    all_admins = await User.query.where(User.is_admin).gino.all()
+    all_admins = await User.query.where(User.is_admin == True).gino.all()
     return all_admins
 
 
@@ -63,7 +63,7 @@ async def select_all_employes() -> list:
     Возвращает список со всеми сотрудниками
     """
 
-    all_employes = await User.query.where(User.is_admin).gino.all()
+    all_employes = await User.query.where(User.is_admin == True).gino.all()
     return all_employes
 
 
