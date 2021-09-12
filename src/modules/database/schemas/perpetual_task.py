@@ -1,4 +1,4 @@
-from sqlalchemy import sql, Column, BigInteger, Text, DateTime
+from sqlalchemy import sql, Column, BigInteger, Text, DateTime, ForeignKey
 from asyncpg import UniqueViolationError
 from datetime import datetime
 
@@ -13,7 +13,7 @@ class PerpetualTask(db.BaseModel):
     __tablename__ = 'PerpetualTasks'
 
     task_id = Column(BigInteger, primary_key=True, autoincrement=True)
-    user_id = Column(BigInteger, db.ForeignKey('Users.user_id'))
+    user_id = Column(BigInteger, ForeignKey('Users.user_id'))
     task_text = Column(Text)
     created_at = Column(DateTime)
     updated_at = Column(DateTime)
