@@ -4,7 +4,7 @@ from datetime import datetime
 
 from sqlalchemy.sql.expression import true
 
-from config.db_config import database as db
+from modules.database import database as db
 
 
 class User(db.BaseModel):

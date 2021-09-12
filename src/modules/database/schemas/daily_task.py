@@ -2,7 +2,7 @@ from sqlalchemy import sql, Column, BigInteger, Text, DateTime
 from asyncpg import UniqueViolationError
 from datetime import datetime
 
-from config.db_config import database as db
+from modules.database import database as db
 
 
 class DailyTask(db.BaseModel):
