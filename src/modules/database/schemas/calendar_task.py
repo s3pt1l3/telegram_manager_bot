@@ -32,7 +32,7 @@ async def add(user_id: int, task_text: str, task_date: bool):
     """
 
     try:
-        user = CalendarTask(user_id=user_id, task_date=task_date, task_date=task_date, created_at=datetime.now(), updated_at=datetime.now())
+        user = CalendarTask(user_id=user_id, task_text=task_text, task_date=task_date, created_at=datetime.now(), updated_at=datetime.now())
         await user.create()
     except UniqueViolationError:
         pass
