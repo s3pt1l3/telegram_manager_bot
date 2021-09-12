@@ -15,7 +15,7 @@ class User(db.BaseModel):
     __tablename__ = 'Users'
 
     id = Column(BigInteger, primary_key=True, autoincrement=True)
-    user_id = Column(BigInteger)
+    user_id = Column(BigInteger, unique=True)
     tag = Column(String(100))
     is_admin = Column(Boolean)
     created_at = Column(DateTime)
