@@ -24,7 +24,7 @@ class User(db.BaseModel):
     query: sql.Select
 
 
-async def add(user_id: int, tag: str, is_admin: bool):
+async def add(user_id: int, tag: str, is_admin: bool=False):
     """
     Функция для добавления пользователя в бд
 
