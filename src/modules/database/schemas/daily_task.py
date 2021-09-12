@@ -13,7 +13,7 @@ class DailyTask(db.BaseModel):
     __tablename__ = 'DailyTasks'
 
     task_id = Column(BigInteger, primary_key=True, autoincrement=True)
-    user_id = Column(BigInteger, ForeignKey('Users.user_id'))
+    user_id = Column(BigInteger, ForeignKey('Users.user_id', ondelete="CASCADE"))
     task_text = Column(Text)
     created_at = Column(DateTime)
     updated_at = Column(DateTime)

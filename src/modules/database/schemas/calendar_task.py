@@ -13,7 +13,7 @@ class CalendarTask(db.BaseModel):
     __tablename__ = 'CalendarTasks'
 
     task_id = Column(BigInteger, primary_key=True, autoincrement=True)
-    user_id = Column(BigInteger, ForeignKey('Users.user_id'))
+    user_id = Column(BigInteger, ForeignKey('Users.user_id', ondelete="CASCADE"))
     task_text = Column(Text)
     task_date = Column(DateTime)
     created_at = Column(DateTime)
