@@ -16,7 +16,7 @@ class User(db.BaseModel):
 
     id = Column(BigInteger, primary_key=True, autoincrement=True)
     user_id = Column(BigInteger)
-    tag = Column(String, 100)
+    tag = Column(String(100))
     is_admin = Column(Boolean)
     created_at = Column(DateTime)
     updated_at = Column(DateTime)
