@@ -1,5 +1,6 @@
 import calendar
 from datetime import datetime, timedelta
+import locale
 
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from aiogram.utils.callback_data import CallbackData
@@ -8,7 +9,7 @@ from aiogram.types import CallbackQuery
 
 # setting callback_data prefix and parts
 calendar_callback = CallbackData('simple_calendar', 'act', 'year', 'month', 'day')
-
+locale.setlocale(locale.LC_ALL, 'ru_RU.UTF-8')
 
 class SimpleCalendar:
 
@@ -41,7 +42,7 @@ class SimpleCalendar:
         ))
         # Second row - Week Days
         inline_kb.row()
-        for day in ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"]:
+        for day in ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"]:
             inline_kb.insert(InlineKeyboardButton(day, callback_data=ignore_callback))
 
         # Calendar rows - Days of month
