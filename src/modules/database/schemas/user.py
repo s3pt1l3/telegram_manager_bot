@@ -17,7 +17,7 @@ class User(db.BaseModel):
     id = Column(BigInteger, primary_key=True, autoincrement=True)
     user_id = Column(BigInteger, unique=True)
     tag = Column(String(100))
-    is_employe = Column(Boolean)
+    is_employee = Column(Boolean)
     is_admin = Column(Boolean)
     created_at = Column(DateTime)
     updated_at = Column(DateTime)
@@ -25,18 +25,19 @@ class User(db.BaseModel):
     query: sql.Select
 
 
-async def add(user_id: int, tag: str, is_admin: bool=False, is_employe: bool=False):
+async def add(user_id: int, tag: str, is_admin: bool=False, is_employee: bool=False):
     """
     Функция для добавления пользователя в бд
 
     `user_id`: ID пользователя в Telegram\n
     `tag`: Тэг пользователя в Telegram\n
     `is_admin`: Определяет, является ли пользователь админом\n
-    `is_employe`: Определяет, является ли пользователь сотрудником
+    `is_employee`: Определяет, является ли пользователь сотрудником
     """
 
     try:
-        user = User(user_id=user_id, tag=tag, is_admin=is_admin, is_employe=is_employe, created_at=datetime.now(), updated_at=datetime.now()) 
+        user = User(user_id=user_id, tag=tag, is_admin=is_admin, is_employee=is_employee,
+                    created_at=datetime.now(), updated_at=datetime.now())
         await user.create()
     except UniqueViolationError:
         pass
@@ -65,13 +66,13 @@ async def select_all_employes() -> list:
     Возвращает список со всеми сотрудниками
     """
 
-    all_employes = await User.query.where(User.is_employe == True).gino.all()
-    return all_employes
+    all_employees = await User.query.where(User.is_employee == True).gino.all()
+    return all_employees
 
 
 async def select_by_tag(tag: str) -> User:
     """
-    Возвращает пользователя, которого нахдит по аргументу tag
+    Возвращает пользователя, которого находит по аргументу tag
 
     `tag`: Тэг пользователя в Telegram
     """
@@ -82,7 +83,7 @@ async def select_by_tag(tag: str) -> User:
 
 async def select(user_id: int) -> User:
     """
-    Возвращает пользователя, которого нахдит по аргументу user_id
+    Возвращает пользователя, которого находит по аргументу user_id
 
     `user_id`: ID пользователя в Telegram
     """
@@ -91,14 +92,14 @@ async def select(user_id: int) -> User:
     return user
 
 
-async def update(user_id: int, tag: str, is_admin: bool, is_employe: bool) -> None:
+async def update(user_id: int, tag: str, is_admin: bool, is_employee: bool) -> None:
     """
     Функция для обновления записи о пользователе в бд
 
     `user_id`: ID пользователя в Telegram\n
     `tag`: Тэг пользователя в Telegram\n
     `is_admin`: Определяет, является ли пользователь админом\n
-    `is_employe`: Определяет, является ли пользователь сотрудником
+    `is_employee`: Определяет, является ли пользователь сотрудником
     """
 
     user = await User.get(user_id)
@@ -108,8 +109,8 @@ async def update(user_id: int, tag: str, is_admin: bool, is_employe: bool) -> No
         await user.update(tag=tag, updated_at=datetime.now()).apply()
     if is_admin is not None:
         await user.update(is_admin=is_admin, updated_at=datetime.now()).apply()
-    if is_employe is not None:
-        await user.update(is_employe=is_employe, updated_at=datetime.now()).apply()
+    if is_employee is not None:
+        await user.update(is_employee=is_employee, updated_at=datetime.now()).apply()
 
 
 async def delete(user_id: int) -> None:
