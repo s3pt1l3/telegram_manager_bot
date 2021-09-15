@@ -47,13 +47,23 @@ async def select_all() -> list:
 
 async def select(task_id: int) -> DailyTask:
     """
-    Возвращает ежедневную задачу, которую нахдит по аргументу task_id
+    Возвращает ежедневную задачу, которую находит по аргументу task_id
 
     `task_id`: ID ежедневной задачи
     """
 
     task = await DailyTask.query.where(DailyTask.task_id == task_id).gino.first()
     return task
+
+async def select_by_user(user_id: int) -> DailyTask:
+    """
+    Возвращает все ежедневные задачи, которые находит по аргументу user_id
+
+    `user_id`: ID ежедневной задачи
+    """
+
+    tasks = await DailyTask.query.where(DailyTask.user_id == user_id).gino.all()
+    return tasks
 
 
 async def update(task_id: int, user_id: int, task_text: str) -> None:
