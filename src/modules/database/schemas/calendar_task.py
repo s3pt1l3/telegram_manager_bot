@@ -1,6 +1,6 @@
-from sqlalchemy import sql, Column, BigInteger, Text, DateTime, ForeignKey
+from sqlalchemy import sql, Column, BigInteger, Text, Date, DateTime, ForeignKey
 from asyncpg import UniqueViolationError
-from datetime import datetime
+from datetime import datetime, date
 
 from modules.database import database as db
 
@@ -13,9 +13,10 @@ class CalendarTask(db.BaseModel):
     __tablename__ = 'CalendarTasks'
 
     task_id = Column(BigInteger, primary_key=True, autoincrement=True)
-    user_id = Column(BigInteger, ForeignKey('Users.user_id', ondelete="CASCADE"))
+    user_id = Column(BigInteger, ForeignKey(
+        'Users.user_id', ondelete="CASCADE"))
     task_text = Column(Text)
-    task_date = Column(DateTime)
+    task_date = Column(Date)
     created_at = Column(DateTime)
     updated_at = Column(DateTime)
 
@@ -32,7 +33,8 @@ async def add(user_id: int, task_text: str, task_date: DateTime):
     """
 
     try:
-        task = CalendarTask(user_id=user_id, task_text=task_text, task_date=task_date, created_at=datetime.now(), updated_at=datetime.now())
+        task = CalendarTask(user_id=user_id, task_text=task_text, task_date=task_date,
+                            created_at=datetime.now(), updated_at=datetime.now())
         await task.create()
     except UniqueViolationError:
         pass
@@ -49,13 +51,25 @@ async def select_all() -> list:
 
 async def select(task_id: int) -> CalendarTask:
     """
-    Возвращает задачу, которую нахдит по аргументу task_id
+    Возвращает задачу, которую находит по аргументу task_id
 
     `task_id`: ID задачи
     """
 
     task = await CalendarTask.query.where(CalendarTask.task_id == task_id).gino.first()
     return task
+
+
+async def select_by_user_and_day(user_id: int, day: date) -> list:
+    """
+    Возвращает список с задачами, которые находит по аргументам user_id и day
+
+    `user_id`: ID пользователя в Telegram
+    `day`: Дата задачи
+    """
+
+    tasks = await CalendarTask.query.where((CalendarTask.user_id == user_id) & (CalendarTask.task_date == day)).gino.all()
+    return tasks
 
 
 async def update(task_id: int, user_id: int, task_text: str, task_date: DateTime) -> None:
