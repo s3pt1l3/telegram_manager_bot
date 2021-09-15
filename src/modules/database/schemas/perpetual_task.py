@@ -13,7 +13,8 @@ class PerpetualTask(db.BaseModel):
     __tablename__ = 'PerpetualTasks'
 
     task_id = Column(BigInteger, primary_key=True, autoincrement=True)
-    user_id = Column(BigInteger, ForeignKey('Users.user_id', ondelete="CASCADE"))
+    user_id = Column(BigInteger, ForeignKey(
+        'Users.user_id', ondelete="CASCADE"))
     task_text = Column(Text)
     created_at = Column(DateTime)
     updated_at = Column(DateTime)
@@ -30,7 +31,8 @@ async def add(user_id: int, task_text: str):
     """
 
     try:
-        user = PerpetualTask(user_id=user_id, task_text=task_text, created_at=datetime.now(), updated_at=datetime.now())
+        user = PerpetualTask(user_id=user_id, task_text=task_text,
+                             created_at=datetime.now(), updated_at=datetime.now())
         await user.create()
     except UniqueViolationError:
         pass
@@ -54,6 +56,17 @@ async def select(task_id: int) -> PerpetualTask:
 
     task = await PerpetualTask.query.where(PerpetualTask.task_id == task_id).gino.first()
     return task
+
+
+async def select_by_user(user_id: int) -> list:
+    """
+    Возвращает бессрочные задачи, которые находит по аргументу user_id
+
+    `user_id`: ID пользователя в Telegram
+    """
+
+    tasks = await PerpetualTask.query.where(PerpetualTask.user_id == user_id).gino.all()
+    return tasks
 
 
 async def update(task_id: int, user_id: int, task_text: str) -> None:
