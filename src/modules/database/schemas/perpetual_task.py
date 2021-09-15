@@ -47,7 +47,7 @@ async def select_all() -> list:
 
 async def select(task_id: int) -> PerpetualTask:
     """
-    Возвращает бессрочную задачу, которую нахдит по аргументу task_id
+    Возвращает бессрочную задачу, которую находит по аргументу task_id
 
     `task_id`: ID бессрочной задачи
     """
