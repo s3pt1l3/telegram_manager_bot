@@ -5,7 +5,7 @@ from modules.database.schemas import user
 
 
 class IsAdmin(BoundFilter):
-    """Проевряет админ ли отправил сообщение"""
+    """Проверяет, админ ли отправил сообщение"""
     key = 'is_admin'
 
     async def check(self, message: types.Message):
