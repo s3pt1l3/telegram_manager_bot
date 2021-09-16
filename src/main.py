@@ -1,3 +1,7 @@
+import asyncio
+from modules.scheduler.tasks_scheduler import scheduler
+
+
 async def flush_all():
     from loader import db
 
@@ -17,6 +21,8 @@ async def on_startup(dp):
     await database.on_startup(dp)
     print('Подключение установлено')
     await flush_all()
+
+    asyncio.create_task(scheduler())
 
 
 def bind_filters(dp, *args):
