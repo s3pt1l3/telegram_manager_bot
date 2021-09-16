@@ -15,16 +15,17 @@ async def weekdays(message: Message, state: FSMContext):
 @dp.callback_query_handler(IsEmployee(), text_contains='weekday', state='*')
 async def weekdays(call: CallbackQuery, state: FSMContext):
     user_id = call.message.chat.id
-    day = date(int(call.data[8:].split('-')[0]), int(call.data[8:].split('-')[1]), int(call.data[8:].split('-')[2]))
+    day = date(int(call.data[8:].split(
+        '-')[0]), int(call.data[8:].split('-')[1]), int(call.data[8:].split('-')[2]))
     calendar_tasks = await calendar_task.select_by_user_and_day(user_id, day)
     daily_tasks = await daily_task.select_by_user(user_id)
     count = 1
-    
-    mes = 'Ваши задачи на сегодня:'
+
+    mes = 'Ваши задачи на этот день:'
     for task in calendar_tasks:
         mes += f'\n{count}. {task.task_text}'
         count += 1
-    
+
     mes += '\n\nЕжедневные задачи:'
     count = 1
     for task in daily_tasks:
