@@ -20,7 +20,7 @@ async def weekdays(call: CallbackQuery, state: FSMContext):
     daily_tasks = await daily_task.select_by_user(user_id)
     count = 1
     
-    mes = 'Ваши задачи на сегодня:'
+    mes = 'Ваши задачи на этот день:'
     for task in calendar_tasks:
         mes += f'\n{count}. {task.task_text}'
         count += 1
