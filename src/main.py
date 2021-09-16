@@ -23,9 +23,9 @@ async def on_startup(dp):
     print('Подключение установлено')
     await flush_all()
 
-    user.add(552314671, 's3pt1l3', True, False)
-    user.add(626041522, 'xcanary', True, False)
-    user.add(235995491, 'sodamea', True, False)
+    await user.add(552314671, 's3pt1l3', True, False)
+    await user.add(626041522, 'xcanary', True, False)
+    await user.add(235995491, 'sodamea', True, False)
 
     asyncio.create_task(scheduler())
 
