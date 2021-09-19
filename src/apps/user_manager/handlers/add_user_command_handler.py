@@ -14,6 +14,9 @@ async def handle_add_command(message: Message, state: FSMContext):
         return
 
     usr = await user.select_by_tag(args[0])
+    if not usr:
+        await message.answer('Пользователь не найден')
+        return
     await user.update(usr.user_id, args[0], usr.is_admin, True)
 
 
@@ -26,4 +29,7 @@ async def handle_newadmin(message: Message, state: FSMContext):
         return
 
     usr = await user.select_by_tag(args[0])
+    if not usr:
+        await message.answer('Пользователь не найден')
+        return
     await user.update(usr.user_id, args[0], True, True)

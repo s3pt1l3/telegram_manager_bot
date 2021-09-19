@@ -14,5 +14,8 @@ async def handle_del_command(message: Message, state: FSMContext):
         return
 
     usr = await user.select_by_tag(''.join(args))
+    if not usr:
+        await message.answer('Пользователь не найден')
+        return
     await user.delete(usr.user_id)
     await message.answer('Пользователь удален')
