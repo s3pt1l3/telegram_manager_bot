@@ -92,17 +92,18 @@ async def select(user_id: int) -> User:
     return user
 
 
-async def update(user_id: int, tag: str, is_admin: bool, is_employee: bool) -> None:
+async def update(id: int, user_id: int, tag: str, is_admin: bool, is_employee: bool) -> None:
     """
     Функция для обновления записи о пользователе в бд
 
+    `id`: ID пользователя в БД\n
     `user_id`: ID пользователя в Telegram\n
     `tag`: Тэг пользователя в Telegram\n
     `is_admin`: Определяет, является ли пользователь админом\n
     `is_employee`: Определяет, является ли пользователь сотрудником
     """
 
-    user = await User.get(user_id)
+    user = await User.get(id)
     if user_id is not None:
         await user.update(user_id=user_id, updated_at=datetime.now()).apply()
     if tag is not None:
