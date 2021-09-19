@@ -17,6 +17,7 @@ async def handle_add_command(message: Message, state: FSMContext):
         await message.answer('Пользователь не найден')
         return
     await user.update(usr.id, usr.user_id, args, usr.is_admin, True)
+    await message.answer('Пользователь добавлен')
 
 
 @dp.message_handler(IsAdmin(), commands=['addadmin'], state='*')
@@ -32,3 +33,4 @@ async def handle_newadmin(message: Message, state: FSMContext):
         await message.answer('Пользователь не найден')
         return
     await user.update(usr.id, usr.user_id, args, True, True)
+    await message.answer('Админ добавлен')
