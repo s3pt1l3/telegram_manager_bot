@@ -12,12 +12,11 @@ async def handle_add_command(message: Message, state: FSMContext):
     if not args:
         await message.answer('Использование: /add [Тег пользователя]')
         return
-
-    usr = await user.select_by_tag(args[0])
+    usr = await user.select_by_tag(args)
     if not usr:
         await message.answer('Пользователь не найден')
         return
-    await user.update(usr.user_id, args[0], usr.is_admin, True)
+    await user.update(usr.id, usr.user_id, args, usr.is_admin, True)
 
 
 @dp.message_handler(IsAdmin(), commands=['addadmin'], state='*')
@@ -28,8 +27,8 @@ async def handle_newadmin(message: Message, state: FSMContext):
         await message.answer('Использование: /addadmin [Тег пользователя]')
         return
 
-    usr = await user.select_by_tag(args[0])
+    usr = await user.select_by_tag(args)
     if not usr:
         await message.answer('Пользователь не найден')
         return
-    await user.update(usr.user_id, args[0], True, True)
+    await user.update(usr.user_id, args, True, True)
