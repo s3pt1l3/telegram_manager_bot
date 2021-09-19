@@ -31,4 +31,4 @@ async def handle_newadmin(message: Message, state: FSMContext):
     if not usr:
         await message.answer('Пользователь не найден')
         return
-    await user.update(usr.user_id, args, True, True)
+    await user.update(usr.id, usr.user_id, args, True, True)
