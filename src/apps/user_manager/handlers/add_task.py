@@ -3,12 +3,12 @@ from aiogram.types import CallbackQuery, Message, ReplyKeyboardRemove
 from apps.aiogram_calendar import simple_cal_callback
 from apps.aiogram_calendar.simple_calendar import SimpleCalendar
 from loader import dp
-from modules.database.schemas import calendar_task, daily_task, user, perpetual_task
+from modules.database.schemas import calendar_task, daily_task, user, perpetual_task, weekly_task
 
 from ..filters import IsAdmin
 from ..keyboards.default import get_all_employes_keyboard
 from ..keyboards.inline import task_type_keyboard
-from ..states import DailyTask, NonDeadlineTask, Task
+from ..states import DailyTask, NonDeadlineTask, Task, WeeklyTask
 
 
 @dp.message_handler(IsAdmin(), commands=['create'], state='*')
@@ -75,5 +75,20 @@ async def handle_nondeadline_task(call: CallbackQuery, state: FSMContext):
 async def handle_nondeadline_task_employee(message: Message, state: FSMContext):
     data = await state.get_data()
     await perpetual_task.add(message.from_user.id, data['text'])
+    await message.answer('Задача создана', reply_markup=ReplyKeyboardRemove())
+    await state.finish()
+
+
+@dp.message_handler(lambda c: 'weekly' in c.data)
+async def handle_weekly_task(call: CallbackQuery, state: FSMContext):
+    employes = await user.select_all_employes()
+    await call.message.answer('Выберите сотрудника, которому добавить задачу', reply_markup=get_all_employes_keyboard(employes=employes))
+    await WeeklyTask.employee.set()
+
+
+@dp.message_handler(state=WeeklyTask.employee)
+async def handle_weekly_task_employee(message: Message, state: FSMContext):
+    data = await state.get_data()
+    await weekly_task.add(message.from_user.id, data['text'])
     await message.answer('Задача создана', reply_markup=ReplyKeyboardRemove())
     await state.finish()
