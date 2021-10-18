@@ -10,15 +10,17 @@ async def send_notifications():
         daily_tasks = await daily_task.select_by_user(employee.user_id)
         count = 1
 
-        mes = 'Ваши задачи на сегодня:'
-        for task in calendar_tasks:
-            mes += f'\n{count}. {task.task_text}'
-            count += 1
+        if calendar_tasks:
+            mes = 'Ваши задачи на сегодня:'
+            for task in calendar_tasks:
+                mes += f'\n{count}. {task.task_text}'
+                count += 1
+            await bot.send_message(employee.user_id, mes)
 
-        mes += '\n\nЕжедневные задачи:'
-        count = 1
-        for task in daily_tasks:
-            mes += f'\n{count}. {task.task_text}'
-            count += 1
-
-        await bot.send_message(employee.user_id, mes)
+        if daily_tasks:
+            mes += '\n\nЕжедневные задачи:'
+            count = 1
+            for task in daily_tasks:
+                mes += f'\n{count}. {task.task_text}'
+                count += 1
+            await bot.send_message(employee.user_id, mes)
