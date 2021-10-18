@@ -14,3 +14,7 @@ class Task(StatesGroup):
 
 class NonDeadlineTask(StatesGroup):
     employee = State()
+
+
+class WeeklyTask(StatesGroup):
+    employee = State()
