@@ -8,9 +8,10 @@ async def send_notifications():
         tasks = await perpetual_task.select_by_user(employee.user_id)
         count = 1
 
-        mes = 'Ваши периодические задачи:'
-        for task in tasks:
-            mes += f'\n{count}. {task.task_text}'
-            count += 1
+        if tasks:
+            mes = 'Ваши периодические задачи:'
+            for task in tasks:
+                mes += f'\n{count}. {task.task_text}'
+                count += 1
 
-        await bot.send_message(employee.user_id, mes)
+            await bot.send_message(employee.user_id, mes)
