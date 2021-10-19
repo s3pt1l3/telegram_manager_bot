@@ -79,7 +79,7 @@ async def handle_nondeadline_task_employee(message: Message, state: FSMContext):
     await state.finish()
 
 
-@dp.message_handler(lambda c: 'weekly' in c.data)
+@dp.callback_query_handler(lambda c: 'weekly' in c.data)
 async def handle_weekly_task(call: CallbackQuery, state: FSMContext):
     employes = await user.select_all_employes()
     await call.message.answer('Выберите сотрудника, которому добавить задачу', reply_markup=get_all_employes_keyboard(employes=employes))
