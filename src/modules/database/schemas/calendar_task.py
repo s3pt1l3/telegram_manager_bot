@@ -59,6 +59,14 @@ async def select(task_id: int) -> CalendarTask:
     task = await CalendarTask.query.where(CalendarTask.task_id == task_id).gino.first()
     return task
 
+async def select_by_user(user_id: int) -> list:
+    """
+    Возвращает все еженедельные задачи, которые находит по аргументу user_id
+
+    `user_id`: ID еженедельной задачи
+    """
+    tasks = await CalendarTask.query.where(CalendarTask.user_id == user_id).gino.all()
+    return tasks
 
 async def select_by_user_and_day(user_id: int, day: date) -> list:
     """
