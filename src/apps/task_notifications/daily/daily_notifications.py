@@ -21,7 +21,7 @@ async def send_notifications():
                 await bot.send_message(admin.user_id, f"Задачи пользователя: {employee.user_id}\n" + mes[mes.find('Ваши задачи на сегодня:'):])
 
         if daily_tasks:
-            mes += '\n\nЕжедневные задачи:'
+            mes = 'Ежедневные задачи:'
             count = 1
             for task in daily_tasks:
                 mes += f'\n{count}. {task.task_text}'
