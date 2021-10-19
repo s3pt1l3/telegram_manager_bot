@@ -74,7 +74,8 @@ async def handle_nondeadline_task(call: CallbackQuery, state: FSMContext):
 @dp.message_handler(state=NonDeadlineTask.employee)
 async def handle_nondeadline_task_employee(message: Message, state: FSMContext):
     data = await state.get_data()
-    await perpetual_task.add(message.from_user.id, data['text'])
+    usr = await user.select_by_tag(message.text)
+    await perpetual_task.add(usr.user_id, data['text'])
     await message.answer('Задача создана', reply_markup=ReplyKeyboardRemove())
     await state.finish()
 
@@ -89,6 +90,7 @@ async def handle_weekly_task(call: CallbackQuery, state: FSMContext):
 @dp.message_handler(state=WeeklyTask.employee)
 async def handle_weekly_task_employee(message: Message, state: FSMContext):
     data = await state.get_data()
-    await weekly_task.add(message.from_user.id, data['text'])
+    usr = await user.select_by_tag(message.text)
+    await weekly_task.add(usr.user_id, data['text'])
     await message.answer('Задача создана', reply_markup=ReplyKeyboardRemove())
     await state.finish()
