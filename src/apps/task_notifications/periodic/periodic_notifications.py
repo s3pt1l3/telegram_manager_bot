@@ -4,7 +4,7 @@ from modules.database.schemas import user, perpetual_task
 
 async def send_notifications():
     employes = await user.select_all_employes()
-    admins = await user.select_all()
+    admins = await user.select_all_admins()
     for employee in employes:
         tasks = await perpetual_task.select_by_user(employee.user_id)
         count = 1
@@ -17,4 +17,4 @@ async def send_notifications():
 
             await bot.send_message(employee.user_id, mes)
             for admin in admins:
-                await bot.send_message(admin.user_id, f"Задачи пользователя: {employee.user_id}\n" + mes[mes.find('Ваши периодические задачи:'):])
+                await bot.send_message(admin.user_id, f"Задачи пользователя: {employee.tag}\n" + mes[mes.rfind('Ваши периодические задачи:'):])
