@@ -9,7 +9,7 @@ async def scheduler():
     aioschedule.every(10).days.at("11:00").do(periodic_notifications)
     aioschedule.every(10).days.at("21:00").do(periodic_notifications)
     aioschedule.every().day.at("11:00").do(daily_notifications)
-    aioschedule.every().week.at("13:00").do(weekly_notifications)
+    aioschedule.every(7).days.at("13:00").do(weekly_notifications)
     while True:
         await aioschedule.run_pending()
         await asyncio.sleep(1)
