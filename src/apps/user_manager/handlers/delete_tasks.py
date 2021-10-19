@@ -7,13 +7,12 @@ from modules.database.schemas import (calendar_task, daily_task,
                                       perpetual_task, weekly_task)
 
 
-@dp.message_handler(IsAdmin(), commands=['delete_task'], state='*')
+@dp.message_handler(IsAdmin(), commands=['deletetask'], state='*')
 async def delete_task(message: Message, state: FSMContext):
-    args = message.get_args()
-    if not args:
-        await message.answer('Использование: /delete_task [ID]')
+    _id = message.get_args()
+    if not _id:
+        await message.answer('Использование: /deletetask [ID]')
         return
-    _id = args[0]
     if _id.startswith('c'):
         await calendar_task.delete(int(_id[1:]))
     if _id.startswith('d'):
