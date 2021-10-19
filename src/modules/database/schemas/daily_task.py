@@ -89,5 +89,5 @@ async def delete(task_id: int) -> None:
     `task_id`: ID ежедневной задачи
     """
 
-    task = await DailyTask.query.where(DailyTask.user_id == task_id).gino.first()
+    task = await DailyTask.query.where(DailyTask.task_id == task_id).gino.first()
     await task.delete()

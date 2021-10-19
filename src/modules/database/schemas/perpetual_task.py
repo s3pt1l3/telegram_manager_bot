@@ -92,5 +92,5 @@ async def delete(task_id: int) -> None:
     `task_id`: ID бессрочной задачи
     """
 
-    task = await PerpetualTask.query.where(PerpetualTask.user_id == task_id).gino.first()
+    task = await PerpetualTask.query.where(PerpetualTask.task_id == task_id).gino.first()
     await task.delete()
