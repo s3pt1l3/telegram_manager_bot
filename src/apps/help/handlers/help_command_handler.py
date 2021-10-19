@@ -37,6 +37,12 @@ async def handle_del_command(message: Message, state: FSMContext):
 
 Для создания задачи введите:
     /create [Задача]
+
+Для удаления задачи введите:
+    /deletetask [ID задачи]
+
+Для просмотра задач введите:
+    /tasks
     """
     await message.answer(msg)
 
