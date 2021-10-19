@@ -28,4 +28,4 @@ async def send_notifications():
                 count += 1
             await bot.send_message(employee.user_id, mes)
             for admin in admins:
-                await bot.send_message(admin.user_id, f"Задачи пользователя: {employee.user_id}\n" + mes[mes.find('Ваши задачи на сегодня:'):])
+                await bot.send_message(admin.user_id, f"Задачи пользователя: {employee.user_id}\n" + mes[mes.find('Ежедневные задачи:'):])
