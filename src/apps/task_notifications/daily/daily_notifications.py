@@ -18,7 +18,10 @@ async def send_notifications():
                 count += 1
             await bot.send_message(employee.user_id, mes)
             for admin in admins:
-                await bot.send_message(admin.user_id, f"Задачи пользователя: {employee.tag}\n" + mes[mes.rfind('Ваши задачи на сегодня:'):])
+                try:
+                    await bot.send_message(admin.user_id, f"Задачи пользователя: {employee.tag}\n" + mes[mes.rfind('Ваши задачи на сегодня:'):])
+                except:
+                    print("админ не найден")
 
         if daily_tasks:
             mes = 'Ежедневные задачи:'
@@ -28,4 +31,7 @@ async def send_notifications():
                 count += 1
             await bot.send_message(employee.user_id, mes)
             for admin in admins:
-                await bot.send_message(admin.user_id, f"Задачи пользователя: {employee.tag}\n" + mes[mes.rfind('Ежедневные задачи:'):])
+                try:
+                    await bot.send_message(admin.user_id, f"Задачи пользователя: {employee.tag}\n" + mes[mes.rfind('Ежедневные задачи:'):])
+                except:
+                    print("админ не найден")

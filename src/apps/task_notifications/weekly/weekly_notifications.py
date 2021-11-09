@@ -18,4 +18,7 @@ async def send_notifications():
 
             await bot.send_message(employee.user_id, mes)
             for admin in admins:
-                await bot.send_message(admin.user_id, f"Задачи пользователя: {employee.tag}\n" + mes[mes.rfind('Ваши еженедельные задачи:'):])
+                try:
+                    await bot.send_message(admin.user_id, f"Задачи пользователя: {employee.tag}\n" + mes[mes.rfind('Ваши еженедельные задачи:'):])
+                except:
+                    print("админ не найден")
