@@ -2,8 +2,6 @@ from sqlalchemy import sql, Column, BigInteger, Boolean, String, DateTime
 from asyncpg import UniqueViolationError
 from datetime import datetime
 
-from sqlalchemy.sql.expression import true
-
 from modules.database import database as db
 
 

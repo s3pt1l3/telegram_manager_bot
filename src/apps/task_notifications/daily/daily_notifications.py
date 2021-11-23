@@ -16,7 +16,10 @@ async def send_notifications():
             for task in calendar_tasks:
                 mes += f'\n{count}. {task.task_text}'
                 count += 1
-            await bot.send_message(employee.user_id, mes)
+            try:
+                await bot.send_message(employee.user_id, mes)
+            except:
+                print("пользователь не найден")
             for admin in admins:
                 try:
                     await bot.send_message(admin.user_id, f"Задачи пользователя: {employee.tag}\n" + mes[mes.rfind('Ваши задачи на сегодня:'):])
